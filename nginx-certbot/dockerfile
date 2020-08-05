@@ -26,6 +26,7 @@ RUN chmod +x /scripts/*.sh
 RUN mkdir -p /scripts/startup
 
 # Copy production nginx configuration.
+RUN rm -f /etc/nginx/nginx.conf
 COPY nginx.conf /etc/nginx/nginx.conf
 
 # Copy in default nginx configuration (which just forwards ACME requests to
