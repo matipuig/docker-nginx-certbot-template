@@ -1,0 +1,81 @@
+# Docs for this file config available here: https://docs.docker.com/compose/compose-file/.
+#
+# PLEASE REMEMBER TO UPDATE ENVIRONMENT VARIABLES IN .env FILE FOR THIS DOCKER COMPOSE.
+#
+
+version: "3.7"
+services:
+  app1:
+    container_name: app1
+    restart: always
+    build:
+      context: ./apps/app1
+      dockerfile: dockerfile
+    env_file:
+      - app1.env
+    environment:
+      - PORT=443
+      - NAME=First app
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+    networks:
+      - app-network
+    depends_on:
+      - mongo
+
+  app2:
+    container_name: app2
+    restart: always
+    build:
+      context: ./apps/app2
+      dockerfile: dockerfile
+    env_file:
+      - app2.env
+    environment:
+      - PORT=443
+      - NAME=Second app
+    volumes:
+      - letsencrypt:/etc/letsencrypt
+    networks:
+      - app-network
+    depends_on:
+      - mongo
+
+  webserver:
+    container_name: webserver
+    restart: unless-stopped
+    build:
+      context: ./nginx-certbot
+      dockerfile: dockerfile
+    ports:
+      - "80:80/tcp"
+      - "443:443/tcp"
+    environment:
+      CERTBOT_EMAIL: ${CERTBOT_EMAIL}
+    volumes:
+      - ${CURRENT_DIRECTORY}nginx.conf:/etc/nginx/user.conf.d:ro
+      - letsencrypt:/etc/letsencrypt
+    networks:
+      - app-network
+    depends_on:
+      - app1
+      - app2
+
+  mongo:
+    container_name: img_mongo
+    image: "mongo:4"
+    restart: always
+    volumes:
+      - mongodb:/data/db
+      - mongodb_config:/data/configdb
+    networks:
+      - app-network
+
+volumes:
+  letsencrypt:
+  mongodb:
+  mongodb_config:
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,43 @@
+FROM nginx:latest
+LABEL mantainers="Elliot Saba <staticfloat@gmail.com>, Valder Gallo <valergallo@gmail.com>, Bruno Zell <bruno.zzell@gmail.com>"
+LABEL some_changes_made_by="Matias Puig <lic.matiaspuig@gmail.com>"
+
+VOLUME /etc/letsencrypt
+EXPOSE 80
+EXPOSE 443
+
+# Do this apt/pip stuff all in one RUN command to avoid creating large
+# intermediate layers on non-squashable docker installs
+# Also install recommendations from certbot.
+RUN apt update && \
+    apt install -y python3 python3-dev libffi6 libffi-dev libssl-dev curl build-essential procps && \
+    curl -L 'https://bootstrap.pypa.io/get-pip.py' | python3 && \
+    pip install -U cffi certbot && \
+    apt remove --purge -y python3-dev build-essential libffi-dev libssl-dev && \
+    apt-get autoremove -y && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy in scripts for certbot
+COPY ./scripts/ /scripts
+RUN chmod +x /scripts/*.sh
+
+# Add /scripts/startup directory to source more startup scripts
+RUN mkdir -p /scripts/startup
+
+# Copy production nginx configuration.
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Copy in default nginx configuration (which just forwards ACME requests to
+# certbot, or redirects to HTTPS, but has no HTTPS configurations by default).
+RUN rm -f /etc/nginx/conf.d/*
+COPY nginx_conf.d/ /etc/nginx/conf.d/
+
+# Copy configuration for DHParam and nginx ssl into letsencrypt dir.
+# DO NOT copy to /etc/letsencrypt, because the files are modified and won't work.
+RUN rm -f /etc/nginx-ssl/options-ssl-nginx.conf /etc/dhparam/ssl-dhparams.pem
+COPY dhparam/ssl-dhparams.pem /etc/dhparam/ssl-dhparams.pem
+COPY nginx-ssl/options-ssl-nginx.conf /etc/nginx-ssl/options-ssl-nginx.conf
+
+ENTRYPOINT []
+CMD ["/bin/bash", "/scripts/entrypoint.sh"]

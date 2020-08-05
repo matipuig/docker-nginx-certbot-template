@@ -1,0 +1,21 @@
+{
+  "name": "app1",
+  "version": "1.0.0",
+  "description": "Example",
+  "main": "index.js",
+  "scripts": {
+    "test": "none"
+  },
+  "repository": {
+    "type": "git",
+    "url": "none"
+  },
+  "keywords": [
+    "none"
+  ],
+  "author": "none",
+  "license": "UNLICENSED",
+  "dependencies": {
+    "express": "4.17.1"
+  }
+}

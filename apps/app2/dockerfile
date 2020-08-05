@@ -1,0 +1,20 @@
+FROM node:latest
+
+ARG PORT
+ARG NAME
+
+ENV PORT ${PORT}
+ENV NAME ${NAME}
+
+WORKDIR /app
+
+COPY package.json ./
+
+RUN npm install
+
+COPY . ./
+
+#CHANGE PORTS TO WHATEVER THE APP NEEDS.
+EXPOSE ${PORT}
+
+CMD ["node", "index.js"]
