@@ -6,6 +6,9 @@ It's also configured for production and get an A+ in [ssllabs](https://www.sslla
 
 This template is prepared to have many apps using nginx as a reverse proxy (in this example, there are two equal apps working in different folders and an nginx config file to show how).
 
+## IMPORTANT AFTER PULLING.
+Sometimes github or the OS changes files new lines from \r\n to \n or viceversa. If you see "script not found" error in the console. Changes all sh files (their new lines chars could have changed).
+
 ## How to use
 
 ### 1. Add your apps.
