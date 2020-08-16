@@ -1,0 +1,25 @@
+#
+# ADD THIS CONTENT TO DOCKER-COMPOSE FILE.
+#
+# Usage:
+# If you don't need redis to persist data, you can erase the "command" line (appendonly is the command that do the persistence).
+# Never expose 6379 (redis for docker don't use password by default ).
+
+version: "3.7"
+services:
+  redis:
+    container_name: redis
+    image: redis:alpine
+    hostname: redis
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis_data:/data
+    networks:
+      - app-network
+
+volumes:
+  redis_data:
+
+networks:
+  app-network:
+    driver: bridge

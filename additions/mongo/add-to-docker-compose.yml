@@ -1,0 +1,38 @@
+#
+#  ADD THIS CONTENT TO DOCKER-COMPOSE.YML
+#
+#  Usage:
+#  Erase "ports: 27017:27017" to make mongo not accesible from outside the compose.
+#  Add to .env file the MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD variables.
+#  You can change the mongo configuration in teh file /conf/mongo/mongod.conf.
+#  Docs: https://docs.mongodb.com/manual/reference/configuration-options/
+
+version: "3.7"
+services:
+  mongo:
+    container_name: mongo
+    image: "mongo:latest"
+    restart: always
+    deploy:
+      replicas: 1
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    volumes:
+      - mongo_data:/data/db
+      - mongodb_config:/data/configdb
+      - ${CURRENT_DIRECTORY}/conf/mongo/mongod.conf:/etc/mongod.conf
+      - ${CURRENT_DIRECTORY}/conf/mongo/logs:/root/logs
+    entrypoint: ["mongod", "--config", "/etc/mongod.conf"]
+    ports:
+      - "27017:27017"
+    networks:
+      - app-network
+
+volumes:
+  mongo_data:
+  mongo_config:
+
+networks:
+  app-network:
+    driver: bridge
