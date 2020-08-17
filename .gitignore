@@ -1,2 +1,7 @@
 .env
 *.env
+**/.env
+**/*.env
+
+nginx/passwords/*
+!nginx/passwords/sample

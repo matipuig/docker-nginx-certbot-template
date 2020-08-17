@@ -3,41 +3,23 @@
 #
 # Usage: Update the .env file with the specified variables for MYSQL (MYSQL_ROOW_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD).
 # MYSQL with docker-compose it's a bit tricky. Maybe you will need to rerun the docker container after starting it the first time.
-# You can erase ports "3036:3036" to make database not accesible outside the containers.
-#
-# PhpMyAdmin can be removed. It's in case you need to work with the database but you don't have a manager. If you have a manager, you can expose the port.
 
 version: "3.7"
 services:
   mysql:
     image: mariadb:latest
     restart: always
-    deploy:
-      replicas: 1
     environment:
       MYSQL_ROOT_HOST: "%"
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
       MYSQL_DATABASE: ${MYSQL_DATABASE}
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
+      #      - "./conf/mysql/conf.d:/etc/mysql/conf.d:ro"
       - mysql_data:/var/lib/mysql
     networks:
       - app-network
-
-  phpmyadmin:
-    image: phpmyadmin/phpmyadmin:latest
-    environment:
-      PMA_ARBITRARY: 1
-      PMA_HOST: mysql
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD}
-    volumes:
-      - /sessions
-    depends_on:
-      - mysql
 
 volumes:
   mysql_data:
