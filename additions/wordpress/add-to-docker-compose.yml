@@ -1,0 +1,32 @@
+#
+#  ADD THIS CONTENT TO DOCKER-COMPOSE.YML
+#
+#  Usage:
+#  Erase ports exposition. Only go through nginx.
+#  Add to .env file the MYSQL variables (MYSQL_USER, MYSQL_PASSWORD and MYSQL_DATABASE).
+#  This image must have an mysql image associated (in this case, it's named mysql_wordpress). Please, rename it with the mysql/mariadb required container.
+
+version: "3.7"
+services:
+  wordpress:
+    container_name: wordpress
+    image: wordpress:latest
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: "%"
+      WORDPRESS_DB_USER: ${MYSQL_USER}
+      WORDPRESS_DB_PASSWORD: ${MYSQL_PASSWORD}
+      WORDPRESS_DB_NAME: ${MYSQL_DATABASE}
+    volumes:
+      - wordpress:/var/www/html
+    networks:
+      - app-network
+    depends_on:
+      - mysql_wordpress
+
+volumes:
+  wordpress:
+
+networks:
+  app-network:
+    driver: bridge

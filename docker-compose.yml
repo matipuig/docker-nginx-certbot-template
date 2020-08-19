@@ -56,6 +56,7 @@ services:
       - ./nginx/nginx.conf:/etc/nginx/user.conf.d:ro
       - ./nginx/passwords:/etc/nginx/passwords:ro
       - ./nginx/logs:/etc/nginx/logs
+      - ./nginx/html:/etc/nginx/html
       - letsencrypt:/etc/letsencrypt
     networks:
       - app-network
