@@ -87,9 +87,10 @@ webserver:
   environment:
     CERTBOT_EMAIL: ${CERTBOT_EMAIL}
   volumes:
-    - ./nginx/nginx.conf:/etc/nginx/user.conf.d:ro
-    - ./nginx/passwords:/etc/nginx/passwords:ro
-    - ./nginx/logs:/etc/nginx/logs
+    - ./conf/nginx/nginx.conf:/etc/nginx/user.conf.d:ro
+    - ./conf/nginx/passwords:/etc/nginx/passwords:ro
+    - ./conf/nginx/logs:/etc/nginx/logs
+    - ./conf/nginx/html:/etc/nginx/html
     - letsencrypt:/etc/letsencrypt
   networks:
     - app-network
@@ -154,10 +155,10 @@ Each configuration has it's own readme file for usage.
 
 ### 7. (Optional) Protecting nginx with auth basic.
 
-You can modify the nginx/passwords files to ask for authentication for specific locations. This can add an extra layer of security.
+You can modify the conf/nginx/passwords files to ask for authentication for specific locations. This can add an extra layer of security.
 File example:
 
-Filename: /nginx/passwords/new-site
+Filename: conf/nginx/passwords/new-site
 
 ```
 root:nQqwOK2bWAUGQ
