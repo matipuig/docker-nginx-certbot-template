@@ -53,10 +53,10 @@ services:
     environment:
       CERTBOT_EMAIL: ${CERTBOT_EMAIL}
     volumes:
-      - ./nginx/nginx.conf:/etc/nginx/user.conf.d:ro
-      - ./nginx/passwords:/etc/nginx/passwords:ro
-      - ./nginx/logs:/etc/nginx/logs
-      - ./nginx/html:/etc/nginx/html
+      - ./conf/nginx/nginx.conf:/etc/nginx/user.conf.d:ro
+      - ./conf/nginx/passwords:/etc/nginx/passwords:ro
+      - ./conf/nginx/logs:/etc/nginx/logs
+      - ./conf/nginx/html:/etc/nginx/html
       - letsencrypt:/etc/letsencrypt
     networks:
       - app-network

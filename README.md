@@ -100,7 +100,7 @@ webserver:
 
 ### 5. Configure nginx.
 
-Normally configure nginx in nginx/nginx.conf dir. You can use [nginx docs](https://nginx.org/en/docs/).
+Normally configure nginx in conf/nginx/nginx.conf dir. You can use [nginx docs](https://nginx.org/en/docs/).
 You should only care about locations and server_names (everything else is configured in the main conf file or in the template example).
 
 SSL references will have this format:
@@ -143,6 +143,8 @@ server {
 ```
 
 **Note:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_headers lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
+
+You will find another folders: logs (where the nginx logs will be displayed), html (where you can save the custom error pages) and passwords, when you can store all your passwords for auth basic.
 
 ### 6. Configure your docker-compose.yml with /additions dir.
 
