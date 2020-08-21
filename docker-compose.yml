@@ -45,7 +45,7 @@ services:
     container_name: webserver
     restart: unless-stopped
     build:
-      context: ./nginx-certbot
+      context: ./dockerfiles/nginx-certbot
       dockerfile: dockerfile
     ports:
       - "80:80/tcp"
@@ -70,6 +70,17 @@ services:
     restart: always
     networks:
       - app-network
+
+  backup:
+    image: futurice/docker-volume-backup:latest
+    environment:
+      - BACKUP_SOURCES: /backup
+      - BACKUP_FILENAME: backup-%Y-%m-%dT%H-%M-%S.tar.gz
+      - BACKUP_ARCHIVE: /archive
+      - BACKUP_CRON_EXPRESSION: "0 4 * * *"
+    volumes:
+      - letsencrypt:/backup/letsencrypt:ro
+      - ./backups:/archive
 
 volumes:
   letsencrypt:

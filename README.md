@@ -127,6 +127,17 @@ server {
 
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
+    # Edit as needed.
+    add_header X-XSS-Protection "1; mode=block";
+    add_header X-Content-Type-Options "nosniff";
+    add_header Referrer-Policy "no-referrer";
+    add_header Content-Security-Policy "default-src 'self'; script-src 'self'; img-src * 'self'; frame-src *; connect-src 'self' ws: wss: https:; style-src 'self'; style-src-elem 'self'" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header Feature-Policy "autoplay 'none'; camera 'none'" always;
+    add_header X-Permitted-Cross-Domain-Policies "master-only" always;
+    add_header Expect-CT "max-age=604800, enforce, report-uri='https://my-site.com/report'" always;
+
     location / {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
@@ -144,6 +155,7 @@ server {
 ```
 
 **Note:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_headers lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
+Also, you can see a lot of "add_header" directives. These are different directives to increase security. If your webapp will take care of them, you can remove them or edit them according to your needs. For example, Content-Security-Policy will be more effective modified by the application instead of the proxy.
 
 You will find another folders: logs (where the nginx logs will be displayed), html (where you can save the custom error pages) and passwords, when you can store all your passwords for auth basic.
 
@@ -153,7 +165,26 @@ You can add the services, volumes, networks, etc. you need. In this template, I 
 You have some samples in the /additions dir. There's configuration for mongo, redis, mariadb/mysql, phpmyadmin, etc.
 Each configuration has it's own readme file for usage.
 
-### 7. (Optional) Protecting nginx with auth basic.
+### 7. Configure backup
+
+The backup is made with [futurice/docker-volume-backup](https://hub.docker.com/r/futurice/docker-volume-backup) library. You can configure it as you wish (by default, it saves every backup in the backup folder at 4:00 AM).
+In order to use it, you must add to "volumes" every volume you want to backup with the format: volume_name:/backup/volume_name:ro
+For example, if you have a volume called wordpress, it should be: wordpress:/backup/wordpress:ro
+
+```yml
+backup:
+  image: futurice/docker-volume-backup:latest
+  environment:
+    - BACKUP_SOURCES: /backup
+    - BACKUP_FILENAME: backup-%Y-%m-%dT%H-%M-%S.tar.gz
+    - BACKUP_ARCHIVE: /archive
+    - BACKUP_CRON_EXPRESSION: "0 4 * * *"
+  volumes:
+    - letsencrypt:/backup/letsencrypt:ro
+    - ./backups:/archive
+```
+
+### 8. (Optional) Protecting nginx with auth basic.
 
 You can modify the conf/nginx/passwords files to ask for authentication for specific locations. This can add an extra layer of security.
 File example:
@@ -181,7 +212,7 @@ server {
 
 **Note:** Do NOT upload the password files to a repository.
 
-### 8. (Optional) Protect nginx with IP whitelist.
+### 9. (Optional) Protect nginx with IP whitelist.
 
 You can use "allow" and "deny" nginx directives to create an IP whitelist.
 In this case, 127.0.0.1 is the IP for localhost (but it could be any IP you want).
