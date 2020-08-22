@@ -1,0 +1,14 @@
+#
+# ADD THIS CONTENT TO DOCKER-COMPOSE file.
+#
+# Do not exopse any port.
+
+version: "3.7"
+services:
+  adminer:
+    image: dockette/adminer:full-php5
+    restart: always
+
+networks:
+  app-network:
+    driver: bridge

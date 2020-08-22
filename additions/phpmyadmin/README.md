@@ -7,7 +7,6 @@
 Copy the phpmyadmin container into the service section of the docker-compose.yml file.
 
 - Modify the environment variable PMA_ABSOLUTE_URI with the absolute URI phpmyadmin will have. Vg: https://yourserver.com/phpmyadmin/ (you can get this from nginx.conf).
-- Add mysql image in the "depends_on" parameter (do not start phpmyadmin before mysql).
 - Never expose ports 80 or 8080 (ports: "80:80" or "8080:80") of phpmyadmin in docker-compose.yml. **Always hide it behind nginx proxy, phpmyadmin is weak against brute force.**
 - Modify the nginx location configuration. If you use /phpmyadmin/, you should put the same in the "rewrite" line inside the /location section (rewrite ^/phpmyadmin(/.\*)$ $1 break;). Otherwise, phpmyadmin will response with 404 error.
   **Note:** The url shouldn't be "/phpmyadmin" because it's too easy for bots to find.
