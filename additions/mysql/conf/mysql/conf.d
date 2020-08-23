@@ -1,1 +1,0 @@
-# Add here the configuration for mysql.

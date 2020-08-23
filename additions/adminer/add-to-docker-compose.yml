@@ -5,9 +5,11 @@
 
 version: "3.7"
 services:
-  adminer:
-    image: dockette/adminer:full-php5
-    restart: always
+  image: adminer:latest
+  restart: always
+  environment:
+    ADMINER_DESIGN: nette
+    ADMINER_PLUGINS: "tables-filter tinymce"
 
 networks:
   app-network:

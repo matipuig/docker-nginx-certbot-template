@@ -2,6 +2,9 @@
 # ADD THIS CONTENT TO DOCKER-COMPOSE file.
 #
 # Usage: Update the .env file with the specified variables for MYSQL (MYSQL_ROOW_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD).
+# Do not expose any port! Keep the database behind the proxy.
+# You can change mysql configuration uncommenting the volume that send the files /conf/mysql/conf.d to /etc/mysql/conf.d.
+# Source for configuration: https://mariadb.com/kb/en/configuring-mariadb-with-option-files/
 # MYSQL with docker-compose it's a bit tricky. Maybe you will need to rerun the docker container after starting it the first time.
 
 version: "3.7"
@@ -17,7 +20,7 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
-      #      - "./conf/mysql/conf.d:/etc/mysql/conf.d:ro"
+      - "./conf/mysql/conf.d:/etc/mysql/conf.d:ro"
       - mysql_data:/var/lib/mysql
     networks:
       - app-network
