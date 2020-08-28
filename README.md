@@ -120,19 +120,18 @@ server {
     ssl_certificate_key /etc/letsencrypt/live/my-site.com/privkey.pem;
     include  /etc/nginx-ssl/options-ssl-nginx.conf;
     ssl_dhparam /etc/dhparam/ssl-dhparams.pem;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     client_body_timeout 5s;
     client_header_timeout 5s;
     underscores_in_headers on;
 
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
     # Edit as needed.
     add_header X-XSS-Protection "1; mode=block";
     add_header X-Content-Type-Options "nosniff";
     add_header Referrer-Policy "no-referrer";
     add_header Content-Security-Policy "default-src 'self'; script-src 'self'; img-src * 'self'; frame-src *; connect-src 'self' ws: wss: https:; style-src 'self'; style-src-elem 'self'" always;
-    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
     add_header X-Frame-Options "SAMEORIGIN" always;
     add_header Feature-Policy "autoplay 'none'; camera 'none'" always;
     add_header X-Permitted-Cross-Domain-Policies "master-only" always;
