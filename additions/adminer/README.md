@@ -1,7 +1,7 @@
 # Add adminer to the compose
 
-**Note:** This container is protected following [these recommendations](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-adminer-with-nginx-on-an-ubuntu-18-04-server). Read them to understand what's going on here.
-They are for adminer, but they also apply for adminer.
+**Note:** This container is protected following [these recommendations](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-with-nginx-on-an-ubuntu-18-04-server). Read them to understand what's going on here.
+They are for phpmyadmin, but they also apply for adminer.
 
 ## Usage:
 
