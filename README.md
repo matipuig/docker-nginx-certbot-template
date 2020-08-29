@@ -115,6 +115,8 @@ You can see my-site.conf:
 ```nginx
 server {
     server_name my-site.com;
+
+    # SSL configuration.
     listen 443 ssl;
     ssl_certificate /etc/letsencrypt/live/my-site.com/fullchain.pem;
     ssl_certificate_key /etc/letsencrypt/live/my-site.com/privkey.pem;
@@ -122,10 +124,15 @@ server {
     ssl_dhparam /etc/dhparam/ssl-dhparams.pem;
     add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 
+    # Slowloris protection.
     client_body_timeout 5s;
     client_header_timeout 5s;
     underscores_in_headers on;
 
+     # Preventing DOS.
+    limit_req zone=base_req_limiter burst=10 nodelay;
+    limit_conn base_conn_limiter 100;
+    limit_req_log_level notice;
 
     # Edit as needed.
     add_header X-XSS-Protection "1; mode=block";
@@ -153,8 +160,11 @@ server {
 }
 ```
 
-**Note:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_headers lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
-Also, you can see a lot of "add_header" directives. These are different directives to increase security. If your webapp will take care of them, you can remove them or edit them according to your needs. For example, Content-Security-Policy will be more effective modified by the application instead of the proxy.
+**SSL Protection:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_header hsts lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
+
+**Headers protection**: Also, you can see a lot of "add_header" directives. These are different directives to increase security. If your webapp will take care of them, you can remove them or edit them according to your needs. For example, Content-Security-Policy will be more effective modified. You can check with pages like:  [https://www.ipvoid.com/http-security-headers-analyzer/](https://www.ipvoid.com/http-security-headers-analyzer/).
+
+**DOS and slowloris protection**: There's also some configuration for limit_req and limit_conn to avoid DOS attacks. The base limit it's quite high, you should make it more restrictive for your use case. You can see more on this on: [https://www.nginx.com/blog/rate-limiting-nginx/](https://www.nginx.com/blog/rate-limiting-nginx/)
 
 You will find another folders: logs (where the nginx logs will be displayed), html (where you can save the custom error pages) and passwords, when you can store all your passwords for auth basic.
 
