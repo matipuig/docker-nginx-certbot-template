@@ -5,11 +5,12 @@
 
 version: "3.7"
 services:
-  image: adminer:latest
-  restart: always
-  environment:
-    ADMINER_DESIGN: nette
-    ADMINER_PLUGINS: "tables-filter tinymce"
+  adminer:
+    image: adminer:latest
+    restart: always
+    environment:
+      ADMINER_DESIGN: nette
+      ADMINER_PLUGINS: "tables-filter tinymce"
 
 networks:
   app-network:
