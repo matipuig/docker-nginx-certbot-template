@@ -6,11 +6,14 @@
 version: "3.7"
 services:
   adminer:
+    container_name: adminer
     image: adminer:latest
     restart: always
     environment:
       ADMINER_DESIGN: nette
-      ADMINER_PLUGINS: "tables-filter tinymce"
+      ADMINER_PLUGINS: "tables-filter"
+    networks:
+      - app-network
 
 networks:
   app-network:

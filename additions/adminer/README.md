@@ -8,7 +8,7 @@ They are for phpmyadmin, but they also apply for adminer.
 Copy the admin container into the service section of the docker-compose.yml file.
 
 - Add databases images in the "depends_on" parameter (do not start adminer before mysql).
-- Never expose ports 80 or 8080 (ports: "80:80" or "8080:80") of adminer in docker-compose.yml. **Always hide it behind nginx proxy, adminer is weak against brute force.**
+- Never expose ports 80 or 8080 (ports: "80:80" or "8080:800") of adminer in docker-compose.yml. **Always hide it behind nginx proxy, adminer is weak against brute force.**
 - Modify the nginx location configuration. If you use /adminer/, you should put the same in the "rewrite" line inside the /location section (rewrite ^/adminer(/.\*)$ $1 break;). Otherwise, adminer will response with 404 error.
   **Note:** The url shouldn't be "/adminer" because it's too easy for bots to find.
 - **Protect the URL with "auth_basic"** and establish where the auth_basic_user_file is. This adds an extra layer of security (preventing brute force).
@@ -19,15 +19,19 @@ Copy the admin container into the service section of the docker-compose.yml file
 Filename: mysite.conf
 
 ```nginx
+    # This line is necessary to access via "/LOCATION". If you don't add it, it will return "forbidden" in /LOCATION.
+    location = /LOCATION {
+        rewrite /LOCATION /LOCATION/ redirect;
+    }
     location /LOCATION {
-#       allow YOUR_LOCALHOST_IP;
-#       deny all;
-        rewrite ^/LOCATION(/.*)$ $1 break;
-        auth_basic "Please provide login infomation.";
+#        allow YOUR_IP_HOST;
+#        deny all;
+        rewrite ^/LOCATION(.*)$ $1 break;
+        auth_basic "Login information.";
         auth_basic_user_file /etc/nginx/passwords/sample;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
-        proxy_pass http://adminer:80;
+        proxy_pass http://adminer:8080;
         proxy_redirect off;
     }
 ```
