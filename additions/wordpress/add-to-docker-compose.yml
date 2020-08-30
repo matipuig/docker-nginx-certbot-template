@@ -10,7 +10,7 @@
 #  The wordpress location should be "/this_url" or "/this_other_url". If you wont' have a subdir, just use "/".
 #  You can install different themes and plugins in the dirs conf/wordpress/themes and /plugins.
 #
-#  You can also configure 
+#  You can also configure
 #  You can configure wordpress with the WORDPRESS_CONFIG_EXTRA environment variable. Please set the WP_HOME and WP_SITEURL urls.
 #  These variables will be inserted to wp-config.php.
 #  You can see how to configure wordpress here: https://www.wpbeginner.com/beginners-guide/how-to-edit-wp-config-php-file-in-wordpress/#:~:text=Simply%20right%20click%20on%20the,like%20Notepad%20or%20Text%20Edit.
@@ -39,14 +39,15 @@ services:
         define('WP_DEBUG_LOG', true );
         define('WP_DEBUG_DISPLAY', true );
         define('FORCE_SSL_ADMIN', true);
+        define('FS_METHOD','direct');
         $$_SERVER['HTTPS'] = '1';
         if (isset($$_SERVER['HTTP_X_FORWARDED_HOST'])) {
           $$_SERVER['HTTP_HOST'] = $$_SERVER['HTTP_X_FORWARDED_HOST'];
         }
     volumes:
       - wordpress:/var/www/html${WORDPRESS_LOCATION}
-      - ./conf/wordpress/themes:/var/www/html${WORDPRESS_LOCATION}/wp-content/themes/
-      - ./conf/wordpress/plugins:/var/www/html${WORDPRESS_LOCATION}/wp-content/plugins/
+      - ./conf/wordpress/themes:/var/www/html${WORDPRESS_LOCATION}/wp-content/themes/:rw
+      - ./conf/wordpress/plugins:/var/www/html${WORDPRESS_LOCATION}/wp-content/plugins/:rw
     working_dir: /var/www/html${WORDPRESS_LOCATION}
     networks:
       - app-network
