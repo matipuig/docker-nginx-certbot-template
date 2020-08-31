@@ -100,3 +100,5 @@ I added the following plugins to start with:
 - [Login lockdown](https://wordpress.org/plugins/login-lockdown/).
 - [Disable XML-RPC](https://wordpress.org/plugins/disable-xml-rpc/).
 - [Two factor Authentication](https://wordpress.org/plugins/two-factor-authentication/)
+
+In this topic, you will also notice that wordpress needs to use "unsafe-inline" in wp-admin. So you might need to enable it en CSP header for /wp-admin.
