@@ -92,3 +92,11 @@ Docs on how to send mails with wordpress: https://github.com/docker-library/word
 ### WORDPRESS SECURITY.
 
 Even if nginx is secure, you shouldn't rely only on it. Try to also use best practices on wordpress security.
+In the wp-config.php, I forces the use of SSL and banned file editing.
+One good page for starting: [https://www.wpbeginner.com/wordpress-security/](https://www.wpbeginner.com/wordpress-security/)
+I added the following plugins to start with:
+
+- [Sucuri](https://www.wpbeginner.com/refer/sucuri-free-wordpress-scanner-plugin/).
+- [Login lockdown](https://wordpress.org/plugins/login-lockdown/).
+- [Disable XML-RPC](https://wordpress.org/plugins/disable-xml-rpc/).
+- [Two factor Authentication](https://wordpress.org/plugins/two-factor-authentication/)

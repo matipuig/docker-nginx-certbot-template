@@ -1,0 +1,160 @@
+# Copyright (C) 2019 Michael VanDeMar
+# This file is distributed under the same license as the Login LockDown plugin.
+msgid ""
+msgstr ""
+"Project-Id-Version: Login LockDown v1.8\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2019-09-30T07:21:52+00:00\n"
+"PO-Revision-Date: 2019-09-30T07:21:52+00:00\n"
+"X-Generator: WP-CLI 2.3.0\n"
+"X-Domain: login-lockdown\n"
+
+#. Description of the plugin
+msgid "Adds some extra security to WordPress by restricting the rate at which failed logins can be re-attempted from a given IP range. Distributed through <a href=\"http://www.bad-neighborhood.com/\" target=\"_blank\">Bad Neighborhood</a>."
+msgstr ""
+
+#: loginlockdown.php:294
+msgid "Settings Updated."
+msgstr ""
+
+#: loginlockdown.php:313
+msgid "Lockdowns Released."
+msgstr ""
+
+#: loginlockdown.php:327
+msgid "Settings"
+msgstr ""
+
+#: loginlockdown.php:328
+msgid "Activity"
+msgstr ""
+
+#: loginlockdown.php:337
+msgid "Max Login Retries"
+msgstr ""
+
+#: loginlockdown.php:338
+msgid "Number of failed login attempts within the \"Retry Time Period Restriction\" (defined below) needed to trigger a LockDown."
+msgstr ""
+
+#: loginlockdown.php:340
+msgid "Retry Time Period Restriction (minutes)"
+msgstr ""
+
+#: loginlockdown.php:341
+msgid "Amount of time that determines the rate at which failed login attempts are allowed before a LockDown occurs."
+msgstr ""
+
+#: loginlockdown.php:343
+msgid "Lockout Length (minutes)"
+msgstr ""
+
+#: loginlockdown.php:344
+msgid "How long a particular IP block will be locked out for once a LockDown has been triggered."
+msgstr ""
+
+#: loginlockdown.php:346
+msgid "Lockout Invalid Usernames?"
+msgstr ""
+
+#: loginlockdown.php:347
+msgid "By default Login LockDown will not trigger if an attempt is made to log in using a username that does not exist. You can override this behavior here."
+msgstr ""
+
+#: loginlockdown.php:348
+msgid "Yes"
+msgstr ""
+
+#: loginlockdown.php:348
+msgid "No"
+msgstr ""
+
+#: loginlockdown.php:349
+msgid "Mask Login Errors?"
+msgstr ""
+
+#: loginlockdown.php:350
+msgid "WordPress will normally display distinct messages to the user depending on whether they try and log in with an invalid username, or with a valid username but the incorrect password. Toggling this option will hide why the login failed."
+msgstr ""
+
+#: loginlockdown.php:352
+msgid "Show Credit Link?"
+msgstr ""
+
+#: loginlockdown.php:353
+msgid "If enabled, Login LockDown will display the following message on the login form"
+msgstr ""
+
+#: loginlockdown.php:354
+msgid "Login form protected by"
+msgstr ""
+
+#: loginlockdown.php:355
+msgid "This helps others know about the plugin so they can protect their blogs as well if they like. You can enable or disable this message below"
+msgstr ""
+
+#: loginlockdown.php:356
+msgid "Yes, display the credit link."
+msgstr ""
+
+#: loginlockdown.php:357
+msgid "Display the credit link, but add \"rel='nofollow'\" (ie. do not pass any link juice)."
+msgstr ""
+
+#: loginlockdown.php:358
+msgid "No, do not display the credit link."
+msgstr ""
+
+#: loginlockdown.php:360
+msgid "Update Settings"
+msgstr ""
+
+#: loginlockdown.php:370
+#, php-format
+msgid "There is currently %d locked out IP address."
+msgstr ""
+
+#: loginlockdown.php:373
+#, php-format
+msgid "There are currently %d locked out IP addresses."
+msgstr ""
+
+#: loginlockdown.php:389
+msgid "Release Selected"
+msgstr ""
+
+#: loginlockdown.php:440
+msgid "<strong>ERROR</strong>: The username field is empty."
+msgstr ""
+
+#: loginlockdown.php:443
+msgid "<strong>ERROR</strong>: The password field is empty."
+msgstr ""
+
+#: loginlockdown.php:451
+#, php-format
+msgid "<strong>ERROR</strong>: Invalid username. <a href=\"%s\" title=\"Password Lost and Found\">Lost your password</a>?"
+msgstr ""
+
+#: loginlockdown.php:460
+#, php-format
+msgid "<strong>ERROR</strong>: Incorrect password. <a href=\"%s\" title=\"Password Lost and Found\">Lost your password</a>?"
+msgstr ""
+
+#: loginlockdown.php:477
+msgid "<strong>ERROR</strong>: We're sorry, but this IP range has been blocked due to too many recent failed login attempts.<br /><br />Please try again later."
+msgstr ""
+
+#: loginlockdown.php:485
+msgid "<strong>ERROR</strong>: Invalid username or incorrect password."
+msgstr ""
+
+#: loginlockdown.php:497
+#, php-format
+msgid "<strong>ERROR</strong>: Invalid username or incorrect password. <a href=\"%s\" title=\"Password Lost and Found\">Lost your password</a>?"
+msgstr ""
+
+
+
