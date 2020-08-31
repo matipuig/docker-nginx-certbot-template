@@ -162,7 +162,7 @@ server {
 
 **SSL Protection:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_header hsts lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
 
-**Headers protection**: Also, you can see a lot of "add_header" directives. These are different directives to increase security. If your webapp will take care of them, you can remove them or edit them according to your needs. For example, Content-Security-Policy will be more effective modified. You can check with pages like:  [https://www.ipvoid.com/http-security-headers-analyzer/](https://www.ipvoid.com/http-security-headers-analyzer/).
+**Headers protection**: Also, you can see a lot of "add_header" directives. These are different directives to increase security. If your webapp will take care of them, you can remove them or edit them according to your needs. For example, Content-Security-Policy will be more effective modified. You can check with pages like: [Mozilla Observatory](https://observatory.mozilla.org/analyze/).
 
 **DOS and slowloris protection**: There's also some configuration for limit_req and limit_conn to avoid DOS attacks. The base limit it's quite high, you should make it more restrictive for your use case. You can see more on this on: [https://www.nginx.com/blog/rate-limiting-nginx/](https://www.nginx.com/blog/rate-limiting-nginx/)
 
