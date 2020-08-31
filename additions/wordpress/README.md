@@ -43,6 +43,7 @@ WORDPRESS_CONFIG_EXTRA: |
   define('WP_DEBUG_LOG', true );
   define('WP_DEBUG_DISPLAY', true );
   define('FORCE_SSL_ADMIN', true);
+  define('FS_METHOD','direct');
   $$_SERVER['HTTPS'] = '1';
   if (isset($$_SERVER['HTTP_X_FORWARDED_HOST'])) {
       $$_SERVER['HTTP_HOST'] = $$_SERVER['HTTP_X_FORWARDED_HOST'];
