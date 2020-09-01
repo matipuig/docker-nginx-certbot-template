@@ -188,10 +188,14 @@ backup:
     - BACKUP_FILENAME: backup-%Y-%m-%dT%H-%M-%S.tar.gz
     - BACKUP_ARCHIVE: /archive
     - BACKUP_CRON_EXPRESSION: "0 4 * * *"
+    - TZ: America/Argentina/Buenos_Aires
   volumes:
     - letsencrypt:/backup/letsencrypt:ro
     - ./backups:/archive
 ```
+
+You can use backup manually executing:
+docker-compose exec backup ./backup.sh
 
 ### 8. (Optional) Protecting nginx with auth basic.
 
