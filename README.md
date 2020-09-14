@@ -249,6 +249,21 @@ server {
 }
 ```
 
+## Security considerations
+
+### Databases
+
+- Databases should never expose their ports to be accesed. For example, 3306 in MariaDB must always be protected. Other way, it could leave the database exposed to a brute force attack. Even if you are protected by a reverse proxy with some request rate, it creates a risk. The consequences of having the root user stolen would be terrible.
+- If you have to expose your database (not recommended), then you should disable the root user. This way, you should only login with a user with less privileges and harder to guess (security trough obscurity it's not a good technique...).
+- You might need to keep the root user, even though it's recommended to disable it. For example, you might need it in some databases to see performance issues (like in MariaDB).
+- Apps shouldn't use root user for the database. It's recommended to have a less privileged user for each app.
+
+### Database managers
+
+- If you have to use a database manager (like PhpMyAdmin or Adminer), first of all, disable root user login at any cost. If it's that important to see something with the root user, then you should interact by the CLI. The root user is the easier to guess (you only have to guess the password) and it also has high privileges.
+- Never expose the database managers ports directly, like "8080:8080". Use a reverse proxy instead. This way you can protect the app against brute force attacks with a rate limiter and also add more security with more layers like auth_basic.
+- If you can, add a whitelist with only localhost as the allowed IP. This way you can prevent any IP to access your database manager. If you don't have a VPN, or you cannot access as localhost, you can use a [SSH tunnel](https://www.ssh.com/ssh/tunneling/example).
+
 ## Issues
 
 I tried these in Windows and Linux and I didn't have problems. If you have any issue, please, let me know.
