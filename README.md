@@ -251,18 +251,31 @@ server {
 
 ## Security considerations
 
+### Reverse proxy
+
+- Using a reverse proxy as the entrypoint for your website its recommended. So, the only entrypoint and exposed ports should be 80 and 443 with TCP of nginx.
+- Protect with auth_basic every application or URL that might be dangerous. Also, use a whitelist to prevent different IPs accessing your app.
+
+
 ### Databases
 
 - Databases should never expose their ports to be accesed. For example, 3306 in MariaDB must always be protected. Other way, it could leave the database exposed to a brute force attack. Even if you are protected by a reverse proxy with some request rate, it creates a risk. The consequences of having the root user stolen would be terrible.
-- If you have to expose your database (not recommended), then you should disable the root user. This way, you should only login with a user with less privileges and harder to guess (security trough obscurity it's not a good technique...).
+- If you have to expose your database (not recommended), then you should disable the root user. This way, you should only login with an user with less privileges and harder to guess (security trough obscurity it's not a good technique...).
 - You might need to keep the root user, even though it's recommended to disable it. For example, you might need it in some databases to see performance issues (like in MariaDB).
 - Apps shouldn't use root user for the database. It's recommended to have a less privileged user for each app.
 
 ### Database managers
 
-- If you have to use a database manager (like PhpMyAdmin or Adminer), first of all, disable root user login at any cost. If it's that important to see something with the root user, then you should interact by the CLI. The root user is the easier to guess (you only have to guess the password) and it also has high privileges.
+- If you have to use a database manager (like PhpMyAdmin or Adminer), first of all, disable root user login at any cost. If it's that important to see something with the root user, then you should interact by the CLI. The root user is the easiest to guess (you only have to guess the password) and it also has high privileges.
 - Never expose the database managers ports directly, like "8080:8080". Use a reverse proxy instead. This way you can protect the app against brute force attacks with a rate limiter and also add more security with more layers like auth_basic.
-- If you can, add a whitelist with only localhost as the allowed IP. This way you can prevent any IP to access your database manager. If you don't have a VPN, or you cannot access as localhost, you can use a [SSH tunnel](https://www.ssh.com/ssh/tunneling/example).
+- If it's possible, add a whitelist with only localhost as the allowed IP. This way you can prevent any IP to access your database manager. If you don't have a VPN, or you cannot access as localhost, you can use a [SSH tunnel](https://www.ssh.com/ssh/tunneling/example).
+- Do not use a database managers if you can.
+
+### Applications
+
+- If you use something like Node, do NOT use a process manager like pm2 to restart it all the time. It's better to exit the application with the error exit code and leave the restarting decision to docker-compose. If you need pm2 to run different processes at the same time, look if they shouldn't be different containers.
+- If you need a database, do NOT use the root user. Use an user with less privileges instead.
+- Even if the apps takes care of themselves against brute force, DOS, etc., you should protect your application with a reverse proxy. A reverse proxy like nginx will let you add security layers to specific sections of your app, and also centralize the security. The main part where the app should take care of security is in headers (if it doesn't, use the reverse proxy), because it's the app who wknows its CSP, frame options, etc.
 
 ## Issues
 
