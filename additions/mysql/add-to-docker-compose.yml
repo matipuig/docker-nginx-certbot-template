@@ -21,7 +21,7 @@ services:
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}
     volumes:
       - "./conf/mysql/conf.d:/etc/mysql/conf.d:ro"
-      - "./conf/mysql/logs:/etc/mysql/logs:rw"
+      - "./conf/mysql/logs:/var/log/mysql:rw"
       - mysql_data:/var/lib/mysql
     networks:
       - app-network
