@@ -2,12 +2,15 @@
 # ADD THIS CONTENT TO DOCKER-COMPOSE file.
 #
 # Do not exopse any port.
+# The file is modifed to disable root login.
 
 version: "3.7"
 services:
   adminer:
     container_name: adminer
-    image: adminer:latest
+    build:
+      context: ./dockerfiles/adminer
+      dockerfile: dockerfile
     restart: always
     environment:
       ADMINER_DESIGN: nette

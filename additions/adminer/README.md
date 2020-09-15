@@ -1,5 +1,19 @@
 # Add adminer to the compose
 
+This dockerfile is modified to NOT allow the login of root user.
+
+```
+FROM adminer:latest
+
+# Disable login for root user.
+RUN  replace="\AdminerPlugin {" && \
+  replacement="\AdminerPlugin {function login(\$login, \$password){\$login = strtolower(\$login); return (\$login != \"root\");\}" && \
+  sed -i "s/${replace}/${replacement}/" /var/www/html/index.php
+```
+
+This image is based on the oficial adminer image and modifies index.php in order to prevent root user login.
+
+
 **Note:** This container is protected following [these recommendations](https://www.digitalocean.com/community/tutorials/how-to-install-and-secure-phpmyadmin-with-nginx-on-an-ubuntu-18-04-server). Read them to understand what's going on here.
 They are for phpmyadmin, but they also apply for adminer.
 
