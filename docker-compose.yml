@@ -55,6 +55,7 @@ services:
     volumes:
       - ./conf/nginx/nginx.conf:/etc/nginx/user.conf.d:ro
       - ./conf/nginx/passwords:/etc/nginx/passwords:ro
+      - ./conf/nginx/certs:/certs:ro
       - ./conf/nginx/logs:/etc/nginx/logs
       - ./conf/nginx/html:/etc/nginx/html
       - letsencrypt:/etc/letsencrypt

@@ -20,7 +20,7 @@ It's very important to add letsencrypt as a volume for each service (because the
 You can specify .env files for your images or set env variables in "environment" property.
 
 In this case, I stored the SSL cert and key location in environment variables.
-SSL certs and keys path have this format:
+SSL certs and keys path with certbot have this format:
 
 ```
 SERVER_SSL_CERT=/etc/letsencrypt/live/**my-site.com**/fullchain.pem;
@@ -49,6 +49,9 @@ services:
     depends_on:
       - mongo
 ```
+
+**Note**: If you have your own certificates and you don't want to use certbot, you can use the mounted volume "conf/nginx/certs", which will mount them to "/certs".
+This way, you can add your own certificates to nginx configuration. **Do NOT upload certificates or keys to any repository.**
 
 ### 3. Set the .env file for docker-compose
 
@@ -255,7 +258,6 @@ server {
 
 - Using a reverse proxy as the entrypoint for your website its recommended. So, the only entrypoint and exposed ports should be 80 and 443 with TCP of nginx.
 - Protect with auth_basic every application or URL that might be dangerous. Also, use a whitelist to prevent different IPs accessing your app.
-
 
 ### Databases
 
