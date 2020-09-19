@@ -1,0 +1,25 @@
+#
+# ADD THIS CONTENT TO DOCKER-COMPOSE file.
+#
+# Add the mongo-express image
+
+version: "3.7"
+services:
+  mongo-express:
+    container_name: mongo-express
+    image: mongo-express:latest
+    environment:
+      ME_CONFIG_MONGODB_SERVER: mongo
+      ME_CONFIG_MONGODB_ADMINUSERNAME: root
+      ME_CONFIG_MONGODB_ADMINPASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      ME_CONFIG_SITE_BASEURL: /LOCATION/mongo-express/
+      ME_CONFIG_BASICAUTH_USERNAME: temp-username
+      ME_CONFIG_BASICAUTH_PASSWORD: temp-password
+    depends_on:
+      - mongo
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge

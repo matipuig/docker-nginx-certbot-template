@@ -1,7 +1,7 @@
 #
 # ADD THIS CONTENT TO DOCKER-COMPOSE FILE.
 #
-# Usage: Update the .env file with the specified variables for POSTGRES (POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD).
+# Usage: Update the .env file with the specified variables for POSTGRES (POSTGRES_DB and POSTGRES_PASSWORD).
 # Do not expose any port! Keep the database behind the proxy.
 # You can modify the postgresql config modifying files in .conf and uncommenting the volume. Source: https://www.postgresql.org/docs/9.3/config-setting.html
 
@@ -13,11 +13,14 @@ services:
     restart: always
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
-      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_USER: root
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_NOT_ROOT_USER: ${POSTGRES_NOT_ROOT_USER}
+      POSTGRES_NOT_ROOT_PASSWORD: ${POSTGRES_NOT_ROOT_PASSWORD}
     volumes:
       #      - ./conf/postgres/postgresql.conf:/etc/postgresql/postgresql.conf:ro
-      - potgres_data:/var/lib/postgresql
+      - ./conf/postgres/init.sh:/docker-entrypoint-initdb.d/init.sh:ro
+      - postgres_data:/var/lib/postgresql
     networks:
       - app-network
 

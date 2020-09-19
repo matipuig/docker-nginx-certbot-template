@@ -1,0 +1,10 @@
+#! /bin/bash
+
+echo "Creating Postgres user and password for ${POSTGRES_DB}: ${POSTGRES_NOT_ROOT_USER}."
+
+set -e
+
+psql -v ON_ERROR_STOP=1 --username "${POSTGRES_USER}" --dbname "${POSTGRES_DB}" <<-EOSQL
+    CREATE USER ${POSTGRES_NOT_ROOT_USER} WITH PASSWORD '${POSTGRES_NOT_ROOT_PASSWORD}';
+    GRANT ALL PRIVILEGES ON DATABASE ${POSTGRES_DB} TO ${POSTGRES_NOT_ROOT_USER};
+EOSQL

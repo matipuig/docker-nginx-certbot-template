@@ -11,17 +11,19 @@ version: "3.7"
 services:
   mongo:
     container_name: mongo
-    image: "mongo:latest"
+    image: mongo:latest
     restart: always
     environment:
-      MONGO_INITDB_ROOT_USERNAME: ${MONGO_INITDB_ROOT_USERNAME}
+      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+      MONGO_USERNAME: ${MONGO_USERNAME}
+      MONGO_PASSWORD: ${MONGO_PASSWORD}
     volumes:
       - mongo_data:/data/db
-      - mongodb_config:/data/configdb
-      - ./conf/mongo/mongod.conf:/etc/mongod.conf
-      - ./conf/mongo/logs:/root/logs
-    entrypoint: ["mongod", "--config", "/etc/mongod.conf"]
+      - mongo_config:/data/configdb
+      - ./conf/mongo/logs:/root/logs:rw
+      - "./conf/mongo/init.sh:/docker-entrypoint-initdb.d/init.sh"
     networks:
       - app-network
 

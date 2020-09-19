@@ -1,6 +1,8 @@
 FROM adminer:latest
 
+USER root
+
 # Disable login for root user.
-RUN  replace="\AdminerPlugin {" && \
-  replacement="\AdminerPlugin {function login(\$login, \$password){\$login = strtolower(\$login); return (\$login != \"root\");\}" && \
-  sed -i "s/${replace}/${replacement}/" /var/www/html/index.php
+RUN  replace="\AdminerPlugin {"  \
+  && replacement="\AdminerPlugin {function login(\$login, \$password){\$login = strtolower(\$login); return (\$login != \"root\");\}"  \
+  && sed -i "s/${replace}/${replacement}/" /var/www/html/index.php

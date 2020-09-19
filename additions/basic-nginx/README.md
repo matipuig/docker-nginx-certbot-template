@@ -13,4 +13,4 @@ Then:
 1. Configure nginx file in /conf/nginx/conf.d. You can use the docs: [Nginx](https://nginx.org/en/docs/).
 1. You can pass certs to the image in the /certs file. This way, you can use SSL in nginx conf.
 1. You can protect nginx like and add security, but use the nginx-certbot image for that instead.
-1. Add all the applications in the "depends_on" parameter. Othwerise, nginx will crash because it's tryying to connect to a non-existent server.
+1. Add all the applications in the "depends_on" parameter. Othwerise, nginx will crash because it's trying to connect to a non-existent server.
