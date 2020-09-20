@@ -164,6 +164,21 @@ server {
     }
 }
 ```
+**Proxies**:
+If you want to proxy only a part of the url, remember to use the trailing slash. In order to achieve it, you should also add a redirect with the trailing slash.
+```nginx
+    location = /your-app {
+      rewrite /your-app /your-app/ redirect;
+    }
+    location /your-app/ {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+        proxy_pass http://your-app/;
+        proxy_redirect off;
+    }
+
+```
+
 
 **SSL Protection:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_header hsts lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
 
@@ -177,7 +192,9 @@ You will find another folders: logs (where the nginx logs will be displayed), ht
 
 You can add the services, volumes, networks, etc. you need. In this template, I added mongo just as an example.
 You have some samples in the /additions dir. There's configuration for mongo, redis, mariadb/mysql, phpmyadmin, etc.
-Each configuration has it's own readme file for usage.
+Each configuration has it's own readme file for usage and were prepared to use in production considering security best practices.
+
+**Note**: Remember you might need to change the version of the images you use. All of them are with the "latest" version, but that might not be the best for production.
 
 ### 7. Configure backup
 
