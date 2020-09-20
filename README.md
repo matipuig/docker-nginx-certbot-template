@@ -164,8 +164,10 @@ server {
     }
 }
 ```
+
 **Proxies**:
 If you want to proxy only a part of the url, remember to use the trailing slash. In order to achieve it, you should also add a redirect with the trailing slash.
+
 ```nginx
     location = /your-app {
       rewrite /your-app /your-app/ redirect;
@@ -176,9 +178,19 @@ If you want to proxy only a part of the url, remember to use the trailing slash.
         proxy_pass http://your-app/;
         proxy_redirect off;
     }
-
 ```
 
+Also, if you want your app to take care of the headers and not nginx, you can add a dummy add_header in the location section. It will leave the headers control to the app.
+
+```nginx
+    location /your-app/ {
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header Host $http_host;
+      	add_header App "App" always;
+        proxy_pass http://your-app/;
+        proxy_redirect off;
+    }
+```
 
 **SSL Protection:** Pay attention to use options-ssl-nginx.conf, ssl-dhparams and the add_header hsts lines. These lines sets the configuration to score A+ in [ssllabs.com](https://ssllabs.com).
 
