@@ -1,4 +1,25 @@
-# docker-nginx-certbot-template
+# Index
+- [Index](#index)
+- [Docker Nginx Certbot Template](#docker-nginx-certbot-template)
+  - [How to use](#how-to-use)
+    - [1. Add your apps.](#1-add-your-apps)
+    - [2. Add the services to docker-compose.yml](#2-add-the-services-to-docker-composeyml)
+    - [3. Set the .env file for docker-compose](#3-set-the-env-file-for-docker-compose)
+    - [4. Set the webserver](#4-set-the-webserver)
+    - [5. Configure nginx.](#5-configure-nginx)
+    - [6. Configure your docker-compose.yml with /additions dir.](#6-configure-your-docker-composeyml-with-additions-dir)
+    - [7. Configure backup](#7-configure-backup)
+    - [8. (Optional) Protecting nginx with auth basic.](#8-optional-protecting-nginx-with-auth-basic)
+    - [9. (Optional) Protect nginx with IP whitelist.](#9-optional-protect-nginx-with-ip-whitelist)
+  - [Security considerations](#security-considerations)
+    - [Reverse proxy](#reverse-proxy)
+    - [Databases](#databases)
+    - [Database managers](#database-managers)
+    - [Applications](#applications)
+  - [Issues](#issues)
+  - [License](#license)
+
+# Docker Nginx Certbot Template
 
 This repo is a template built on the @staticfloat's repo [docker-nginx-certbot](https://github.com/staticfloat/docker-nginx-certbot) (**Awesome work!!!**).
 You can configure nginx and it will automatically cert and renew the different domains specified in the nginx .conf files.
