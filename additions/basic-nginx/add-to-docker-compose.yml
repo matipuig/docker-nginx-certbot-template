@@ -12,10 +12,10 @@ services:
       - "80:80/tcp"
       - "443:443/tcp"
     volumes:
-      - ./conf/basic-nginx/nginx.conf:/etc/nginx/user.conf.d:ro
+      - ./conf/basic-nginx/conf.d:/etc/nginx/conf.d
       - ./conf/basic-nginx/passwords:/etc/nginx/passwords:ro
       - ./conf/basic-nginx/certs:/certs:ro
-      - ./conf/basic-nginx/logs:/etc/nginx/logs
+      - ./conf/basic-nginx/logs:/etc/nginx/logs:rw
       - ./conf/basic-nginx/html:/etc/nginx/html
     networks:
       - app-network

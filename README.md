@@ -71,11 +71,17 @@ You will also find:
   [https://github.com/docker/compose/issues/4253](https://github.com/docker/compose/issues/4253)
   [https://github.com/docker/compose/pull/4026](https://github.com/docker/compose/pull/4026)
 
+  It also happened, in kitematic, that the volume won't work if the path is not complete. For example: c:\\\\Users\\\\User\\\\docker/something/something And also is case sensitive.
+
+
 ### 4. Set the webserver
 
 The webserver contains nginx and certbot staticfloat's repo.
 It's very important to add all the services in the nginx "depends_on" property (we need nginx to start last).
 Otherwise, nginx could start before them and will fail when it tries to connect to a non-existent server.
+
+
+How to configure:
 
 ```yml
 webserver:
@@ -102,9 +108,24 @@ webserver:
     - app2
 ```
 
+**Important Note in Windows**:
+If often happens in windows that the mounting won't work if you don't set the complete path (or activate the env variable. Please see previous section). And you will find the docker container starts, but your files are not as you expect. So, you won't see any error, but the files are not inside the container.
+Sometimes ./var:/var:rw works (like in Linux), but other times worked for us like:
+- c:\\\\Users\\\\User\\\\docker\\\\var:/var 
+- c:\\\\Users\\\\User\\\\docker/var:/var
+- //c/Users/User/docker/var:/var
+
+You can see if the problem is the mounting looking for the specified files inside the container using bash:
+```bash
+docker-compose up -d webserver
+docker exec -it webserver bash
+cd /var && ls
+# Are here my files? If don't, then probably the problem is the mounting...
+```
+
 ### 5. Configure nginx.
 
-Normally configure nginx in conf/nginx/nginx.conf dir. You can use [nginx docs](https://nginx.org/en/docs/).
+Normally configure nginx in conf/nginx/nginx.conf dir. You can use [nginx docs](https://nginx.org/en/docs/). Algo, this document from DigitalOcean is excelent: [doc](https://www.digitalocean.com/community/tutorials/understanding-nginx-server-and-location-block-selection-algorithms).
 You should only care about locations and server_names (everything else is configured in the main conf file or in the template example).
 
 SSL references will have this format:
@@ -304,7 +325,7 @@ server {
 
 ### Applications
 
-- If you use something like Node, do NOT use a process manager like pm2 to restart it all the time. It's better to exit the application with the error exit code and leave the restarting decision to docker-compose. If you need pm2 to run different processes at the same time, look if they shouldn't be different containers.
+- If you use something like Node, do NOT use a process manager like pm2 to restart it all the time. It's better to exit the application with the error exit code and leave the restarting decision to docker-compose. If you need pm2 to run different processes at the same time, look if they shouldn't be in different containers.
 - If you need a database, do NOT use the root user. Use an user with less privileges instead.
 - Even if the apps takes care of themselves against brute force, DOS, etc., you should protect your application with a reverse proxy. A reverse proxy like nginx will let you add security layers to specific sections of your app, and also centralize the security. The main part where the app should take care of security is in headers (if it doesn't, use the reverse proxy), because it's the app who wknows its CSP, frame options, etc.
 
