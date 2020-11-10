@@ -1,31 +1,29 @@
 #
-#  ADD THIS CONTENT TO DOCKER-COMPOSE.YML
+# ADD THIS CONTENT TO DOCKER-COMPOSE FILE.
+# Look for the alpine more stable but not the latest image on dockerhub:
+# https://hub.docker.com/_/mongo
 #
-#  Usage:
-#  Erase "ports: 27017:27017" to make mongo not accesible from outside the compose.
-#  Add to .env file the MONGO_INITDB_ROOT_USERNAME and MONGO_INITDB_ROOT_PASSWORD variables.
-#  You can change the mongo configuration in the file /conf/mongo/mongod.conf.
-#  Docs: https://docs.mongodb.com/manual/reference/configuration-options/
+# Usage: Update the .env file with the specified variables for MONGO (MONGO_USERNAME and MONGO_PASSWORD).
+# Do not expose any port! Keep the database behind the proxy.
+# You can modify mongo configuration with: https://docs.mongodb.com/
 
-version: "3.7"
-services:
-  mongo:
-    container_name: mongo
-    image: mongo:latest
-    restart: always
-    environment:
-      MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
-      MONGO_INITDB_ROOT_USERNAME: root
-      MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
-      MONGO_USERNAME: ${MONGO_USERNAME}
-      MONGO_PASSWORD: ${MONGO_PASSWORD}
-    volumes:
-      - mongo_data:/data/db
-      - mongo_config:/data/configdb
-      - ./conf/mongo/logs:/root/logs:rw
-      - "./conf/mongo/init.sh:/docker-entrypoint-initdb.d/init.sh"
-    networks:
-      - app-network
+mongo_test:
+  container_name: mongo_test
+  image: mongo:3-xenial
+  restart: always
+  environment:
+    MONGO_INITDB_DATABASE: ${MONGO_INITDB_DATABASE}
+    MONGO_INITDB_ROOT_USERNAME: root
+    MONGO_INITDB_ROOT_PASSWORD: ${MONGO_INITDB_ROOT_PASSWORD}
+    MONGO_USERNAME: ${MONGO_USERNAME}
+    MONGO_PASSWORD: ${MONGO_PASSWORD}
+  volumes:
+    - mongo_data:/data/db
+    - mongo_config_data:/data/configdb
+    - ./conf/mongo/logs:/root/logs:rw
+    - "./conf/mongo/init.sh:/docker-entrypoint-initdb.d/init.sh"
+  networks:
+    - app-network
 
 volumes:
   mongo_data:

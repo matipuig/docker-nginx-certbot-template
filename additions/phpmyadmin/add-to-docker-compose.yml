@@ -1,6 +1,8 @@
 #
 # ADD THIS CONTENT TO DOCKER-COMPOSE file.
 #
+# Configure absolute domain and info.
+# Try not to left this in production!!
 
 version: "3.7"
 services:

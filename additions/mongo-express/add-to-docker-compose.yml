@@ -2,6 +2,7 @@
 # ADD THIS CONTENT TO DOCKER-COMPOSE file.
 #
 # Add the mongo-express image
+# DO NOT KEEP THIS IN PRODUCTION!!
 
 version: "3.7"
 services:

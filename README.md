@@ -1,4 +1,5 @@
 # Index
+
 - [Index](#index)
 - [Docker Nginx Certbot Template](#docker-nginx-certbot-template)
   - [How to use](#how-to-use)
@@ -94,13 +95,11 @@ You will also find:
 
   It also happened, in kitematic, that the volume won't work if the path is not complete. For example: c:\\\\Users\\\\User\\\\docker/something/something And also is case sensitive.
 
-
 ### 4. Set the webserver
 
 The webserver contains nginx and certbot staticfloat's repo.
 It's very important to add all the services in the nginx "depends_on" property (we need nginx to start last).
 Otherwise, nginx could start before them and will fail when it tries to connect to a non-existent server.
-
 
 How to configure:
 
@@ -132,11 +131,13 @@ webserver:
 **Important Note in Windows**:
 If often happens in windows that the mounting won't work if you don't set the complete path (or activate the env variable. Please see previous section). And you will find the docker container starts, but your files are not as you expect. So, you won't see any error, but the files are not inside the container.
 Sometimes ./var:/var:rw works (like in Linux), but other times worked for us like:
-- c:\\\\Users\\\\User\\\\docker\\\\var:/var 
+
+- c:\\\\Users\\\\User\\\\docker\\\\var:/var
 - c:\\\\Users\\\\User\\\\docker/var:/var
 - //c/Users/User/docker/var:/var
 
 You can see if the problem is the mounting looking for the specified files inside the container using bash:
+
 ```bash
 docker-compose up -d webserver
 docker exec -it webserver bash
@@ -249,6 +250,15 @@ You have some samples in the /additions dir. There's configuration for mongo, re
 Each configuration has it's own readme file for usage and were prepared to use in production considering security best practices.
 
 **Note**: Remember you might need to change the version of the images you use. All of them are with the "latest" version, but that might not be the best for production.
+You can look for the recommended images in dockerhub.
+
+**Some security guidelines**:
+
+- Always change the image you use for another than "latest" (in production this can be dangerous).
+- Never run the containers as the root user.
+- Do not use a complete image if it's not necesary. For example, if you can use alpine, use alpine.
+- Always use oficial images in dockerhub.
+- Yse the hadolint tool online for best practices: [hadolint](https://hadolint.github.io/hadolint/).
 
 ### 7. Configure backup
 

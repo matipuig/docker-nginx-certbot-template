@@ -1,5 +1,6 @@
 #
 # ADD THIS CONTENT TO DOCKER-COMPOSE file.
+# Choose an image from mariadb dockerhub, try to use the more stable but not the latest:
 #
 # Usage: Update the .env file with the specified variables for MYSQL (MYSQL_ROOW_PASSWORD, MYSQL_DATABASE, MYSQL_USER, MYSQL_PASSWORD).
 # Do not expose any port! Keep the database behind the proxy.
@@ -11,7 +12,7 @@ version: "3.7"
 services:
   mysql:
     container_name: mysql
-    image: mariadb:latest
+    image: mariadb:10.5.7-focal
     restart: always
     environment:
       MYSQL_ROOT_HOST: "%"

@@ -1,5 +1,7 @@
 #
 # ADD THIS CONTENT TO DOCKER-COMPOSE FILE.
+# Choose the image you find more convenient in dockerhub: https://hub.docker.com/_/postgres
+# Use the most stable alpine image but not the latest!
 #
 # Usage: Update the .env file with the specified variables for POSTGRES (POSTGRES_DB and POSTGRES_PASSWORD).
 # Do not expose any port! Keep the database behind the proxy.
@@ -9,8 +11,9 @@ version: "3.7"
 services:
   postgres:
     container_name: postgres
-    image: postgres:latest
+    image: postgres:13-alpine
     restart: always
+    user: postgres
     environment:
       POSTGRES_DB: ${POSTGRES_DB}
       POSTGRES_USER: root

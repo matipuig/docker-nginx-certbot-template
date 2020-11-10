@@ -1,4 +1,6 @@
-FROM adminer:latest
+# Choose a tag from https://hub.docker.com/_/adminer/
+# Try to use the more secure but not the latest.
+FROM adminer:4.7.7-standalone
 
 USER root
 
@@ -6,3 +8,7 @@ USER root
 RUN  replace="\AdminerPlugin {"  \
   && replacement="\AdminerPlugin {function login(\$login, \$password){\$login = strtolower(\$login); return (\$login != \"root\");\}"  \
   && sed -i "s/${replace}/${replacement}/" /var/www/html/index.php
+
+RUN useradd -u 8877 app
+
+USER app 

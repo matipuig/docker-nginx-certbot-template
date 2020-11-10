@@ -1,12 +1,14 @@
 #
 # ADD THIS CONTENT TO DOCKER-COMPOSE file.
 #
+# Choose an image from https://hub.docker.com/_/nginx
+# Try to use the alpine image more stable, but not the latest!
 
 version: "3.7"
 services:
   nginx:
     container_name: nginx
-    image: nginx:latest
+    image: nginx:1.19.4-alpine
     restart: unless-stopped
     ports:
       - "80:80/tcp"
