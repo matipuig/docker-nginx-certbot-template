@@ -46,6 +46,6 @@ echo "Pruning builder..."
 docker builder prune -af
 
 echo ""
-echo "Done! You should remember that if you are using docker-desktop, maybe you should use in the app the opcion purge Data in the debug options"
+echo "Done! You should remember that if you are using docker-desktop, maybe you should use in the app the opcion purge Data in the debug options. But THIS WILL ALSO ERASE VOLUMES."
 echo "Everything OK! Press any key to quit."
 read USER_INPUT
